@@ -1,12 +1,13 @@
 FROM ubuntu:latest
 
 ARG USERNAME=workshop
-ARG USER_UID=1001
-ARG USER_GID=1001
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
 ENV TIMEZONE=Asia/Taipei
 
 RUN set -x && \
+    export DEBIAN_FRONTEND=noninteractive && \
     # timezone
     ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone && \
     # install packages
@@ -80,7 +81,7 @@ RUN set -x && \
     useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u $USER_GID $USERNAME && \
     # change default dash to bash
     echo "dash dash/sh boolean false" | debconf-set-selections && \
-    DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash && \
+    dpkg-reconfigure dash && \
     # clean up
     rm -rf /var/lib/apt/lists/* 
 
@@ -114,6 +115,8 @@ RUN set -x && \
     rm -rf aws && \
     # info collection
     lscpu
+
+ENV DOCKER_HOST=unix:///var/run/user/1000/docker.sock
 
 COPY --chown=workshop:root ./dotfiles/.zshrc /home/$USERNAME/
 COPY --chown=workshop:root ./dotfiles/.p10k.zsh* /home/$USERNAME/
