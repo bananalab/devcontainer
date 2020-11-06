@@ -87,9 +87,14 @@ RUN set -x && \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k && \
     # install homebrew
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && \
-    echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/workshop/.zprofile && \
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
+    # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && \
+    # echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/workshop/.zprofile && \
+    # eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
+    git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew && \
+    mkdir ~/.linuxbrew/bin && \
+    ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin && \
+    eval $(~/.linuxbrew/bin/brew shellenv) && \
+    echo 'eval $(~/.linuxbrew/bin/brew shellenv)' >> /home/workshop/.zprofile && \
     brew update && \
     # install p10k
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k && \
