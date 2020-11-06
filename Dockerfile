@@ -33,6 +33,7 @@ RUN set -x && \
         gpg-agent \
         git \
         php \
+        ruby \
         docker \
         powerline \
         fonts-powerline \
@@ -89,6 +90,7 @@ RUN set -x && \
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && \
     echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/workshop/.zprofile && \
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
+    brew update && \
     # install p10k
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k && \
     # install AWS CLI v2
