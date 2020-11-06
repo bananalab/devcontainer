@@ -14,12 +14,13 @@ RUN set -x && \
     apt-get install --no-install-recommends --no-install-suggests -y \
         zsh \
         # zsh-completions \
-        # autojump \
+        autojump \
         bash-completion \
         build-essential \
         gcc \
         htop \
         jq \
+        tree \
         less \
         llvm \
         locales \
@@ -32,9 +33,15 @@ RUN set -x && \
         curl \
         gpg-agent \
         git \
+        tig \
         php \
+        php-cli \
+        composer \
+        unzip \
         ruby \
         docker \
+        docker.io \
+        docker-compose \
         powerline \
         fonts-powerline \
         # php extensions
@@ -81,37 +88,35 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 
 RUN set -x && \
+    export ARCH=$(uname -i) && \
+    echo $ARCH && \
     # install oh-my-zsh
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k && \
-    # install homebrew
-    # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && \
-    # echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/workshop/.zprofile && \
-    # eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
-    git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew && \
-    mkdir ~/.linuxbrew/bin && \
-    ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin && \
-    eval $(~/.linuxbrew/bin/brew shellenv) && \
-    echo 'eval $(~/.linuxbrew/bin/brew shellenv)' >> /home/workshop/.zprofile && \
-    brew update && \
     # install p10k
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k && \
     # install AWS CLI v2
-    brew install awscli && \
-    # install tree
-    brew install tree && \
-    # install docker
-    brew install docker && \
-    # install composer
-    brew install composer && \
-    # install tig
-    brew install tig && \
-    # install autojump
-    brew install autojump
+    case ${ARCH} in \
+        aarch64) \
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" ; \
+            unzip awscliv2.zip ; \
+            sudo ./aws/install ; \
+            ;; \
+        *) \
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ; \
+            unzip awscliv2.zip ; \
+            sudo ./aws/install ; \
+            ;; \
+    esac && \
+    rm awscliv2.zip && \
+    rm -rf aws && \
+    # info collection
+    lscpu
 
 COPY --chown=workshop:root ./dotfiles/.zshrc /home/$USERNAME/
 COPY --chown=workshop:root ./dotfiles/.p10k.zsh* /home/$USERNAME/
+COPY --chown=workshop:root ./scripts/* /home/$USERNAME/scripts/
 
 

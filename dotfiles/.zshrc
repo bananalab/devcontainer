@@ -81,7 +81,6 @@ plugins=(
 )
 
 source ${ZSH}/oh-my-zsh.sh
-source ${HOME}/.zprofile
 
 ####################################################################
 # User configuration
@@ -118,3 +117,5 @@ export EDITOR='vim'
 #fi
 fpath=(/etc/zsh_completion $fpath)
 autoload -Uz compinit && compinit -i
+
+./scripts/startup.sh

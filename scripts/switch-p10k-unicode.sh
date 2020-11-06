@@ -1,0 +1,1 @@
+[[ ! -f ~/.p10k.zsh-unicode ]] || source ~/.p10k.zsh-unicode
