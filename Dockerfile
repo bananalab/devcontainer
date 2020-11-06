@@ -116,8 +116,6 @@ RUN set -x && \
     # info collection
     lscpu
 
-ENV DOCKER_HOST=unix:///var/run/user/1000/docker.sock
-
 COPY --chown=workshop:root ./dotfiles/.zshrc /home/$USERNAME/
 COPY --chown=workshop:root ./dotfiles/.p10k.zsh* /home/$USERNAME/
 COPY --chown=workshop:root ./scripts/* /home/$USERNAME/scripts/
