@@ -118,4 +118,4 @@ export EDITOR='vim'
 fpath=(/etc/zsh_completion $fpath)
 autoload -Uz compinit && compinit -i
 
-./scripts/startup.sh
+${HOME}/scripts/startup.sh
