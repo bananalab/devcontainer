@@ -118,6 +118,7 @@ RUN set -x && \
 
 COPY --chown=workshop:root ./dotfiles/.zshrc /home/$USERNAME/
 COPY --chown=workshop:root ./dotfiles/.p10k.zsh* /home/$USERNAME/
+COPY --chown=workshop:root ./dotfiles/.aws/* /home/$USERNAME/.aws/
 COPY --chown=workshop:root ./scripts/* /home/$USERNAME/scripts/
 
 
