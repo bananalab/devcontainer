@@ -11,3 +11,5 @@ if [[ $CODESPACES == 'true' ]]; then
 else 
   source /home/workshop/scripts/switch-p10k-unicode.sh
 fi
+
+sudo chmod 775 /var/run/docker.sock

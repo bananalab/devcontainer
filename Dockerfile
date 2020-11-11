@@ -77,8 +77,9 @@ RUN set -x && \
     mkdir -p /etc/sudoers.d && \
     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
-    # add workshop user
-    useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u $USER_GID $USERNAME && \
+    # add group & user
+    groupadd -g $USER_GID $USERNAME && \
+    useradd -rm -d /home/$USERNAME -s /bin/zsh -g $USER_GID -G root,sudo,docker -u $USER_UID $USERNAME && \
     # change default dash to bash
     echo "dash dash/sh boolean false" | debconf-set-selections && \
     dpkg-reconfigure dash && \
