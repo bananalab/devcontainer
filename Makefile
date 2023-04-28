@@ -3,8 +3,8 @@
 IS_LATEST        := $(IS_LATEST)
 GIT_COMMIT_HASH  := $(shell git rev-parse --short HEAD)
 
-NAME_VENDOR      := dwchiang
-NAME_PROJECT     := workshop
+NAME_VENDOR      := bananalab
+NAME_PROJECT     := devcontainer
 NAME_IMAGE_REPO  := $(NAME_VENDOR)/$(NAME_PROJECT)
 
 help:
