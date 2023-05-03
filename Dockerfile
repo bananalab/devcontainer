@@ -1,22 +1,33 @@
 FROM ubuntu:latest
 
-ARG USERNAME=workshop
+ARG USERNAME=bootcamp
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG TERRAFORM_VERSION=latest
+ARG TFENV_VERSION=latest
+ARG TFLINT_VERSION=latest
+ARG TERRAFORM_DOCS_VERSION=latest
+ARG TERRAGRUNT_VERSION=latest
+ARG NODE_VERSION=18
+ARG CDK_VERSION=latest
+ARG CHECKOV_VERSION=latest
+ARG PRECOMMIT_VERSION=latest
+ARG DIRENV_VERSION=latest
+ARG KUBECTL_VERSION=latest
+ARG AWSCOPILOT_VERSION=latest
+ARG EKSCTL_VERSION=latest
+ARG SOPS_VERSION=latest
 
-ENV TIMEZONE=Asia/Taipei
+ENV TIMEZONE=US/Pacific
 
 RUN set -x && \
     export DEBIAN_FRONTEND=noninteractive && \
     # timezone
     ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone && \
     # install packages
-    apt-get update && \
-    apt-get install --no-install-recommends --no-install-suggests -y \
+    apt update && \
+    apt install --no-install-recommends --no-install-suggests -y \
         zsh \
-        # zsh-completions \
-        autojump \
-        bash-completion \
         build-essential \
         gcc \
         htop \
@@ -26,7 +37,6 @@ RUN set -x && \
         llvm \
         locales \
         man-db \
-        nano \
         software-properties-common \
         sudo \
         vim \
@@ -34,92 +44,29 @@ RUN set -x && \
         curl \
         gpg-agent \
         git \
-        tig \
-        php \
-        php-cli \
-        composer \
         unzip \
-        ruby \
         docker \
         docker.io \
         docker-compose \
-        powerline \
-        fonts-powerline \
-        # php extensions
-        # https://github.com/dwchiang/laravel-on-aws-ecs-workshops/blob/master/section-01/Dockerfile
-        bc \
-        libbz2-dev \
-        libfreetype6-dev \
-        libpng-dev \
-        libjpeg-dev \
-        && \
-    # for php
-    apt-get install --no-install-recommends --no-install-suggests -y \
-        php-gd \
-        php-bcmath \
-        php-bz2 \
-        php-fpm \
-        php-mysql \
-        php-pgsql \
-        php-mbstring \
-        php-tokenizer \
-        php-xml \
-        && \
-    # locale for homebrew
-    # https://github.com/Linuxbrew/brew/issues/568#issuecomment-367417842
-    localedef -i en_US -f UTF-8 en_US.UTF-8 && \
-    # install nodejs
-    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
-    apt-get install --no-install-recommends --no-install-suggests -y nodejs yarn && \
-    # install AWS CDK
-    npm install -g aws-cdk && \    
+        python3-pip && \
+        rm -rf /var/lib/apt/lists/*
+
+RUN set -x &&\   
     # add sudoer
     mkdir -p /etc/sudoers.d && \
     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
     # add group & user
     groupadd -g $USER_GID $USERNAME && \
-    useradd -rm -d /home/$USERNAME -s /bin/zsh -g $USER_GID -G root,sudo,docker -u $USER_UID $USERNAME && \
-    # change default dash to bash
-    echo "dash dash/sh boolean false" | debconf-set-selections && \
-    dpkg-reconfigure dash && \
-    # clean up
-    rm -rf /var/lib/apt/lists/* 
+    useradd -rm -d /home/$USERNAME -s /bin/zsh -g $USER_GID -G root,sudo,docker -u $USER_UID $USERNAME
+
+COPY --chown=workshop:root --chmod=777 ./scripts/* /tmp/scripts/
+
+RUN for f in /tmp/scripts/*.sh; do bash -uex "$f" || false; done
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
-RUN set -x && \
-    export ARCH=$(uname -i) && \
-    echo $ARCH && \
-    # install oh-my-zsh
-    bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k && \
-    # install p10k
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k && \
-    # install AWS CLI v2
-    case ${ARCH} in \
-        aarch64) \
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" ; \
-            unzip awscliv2.zip ; \
-            sudo ./aws/install ; \
-            ;; \
-        *) \
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ; \
-            unzip awscliv2.zip ; \
-            sudo ./aws/install ; \
-            ;; \
-    esac && \
-    rm awscliv2.zip && \
-    rm -rf aws && \
-    # info collection
-    lscpu
+RUN bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-COPY --chown=workshop:root ./dotfiles/.zshrc /home/$USERNAME/
-COPY --chown=workshop:root ./dotfiles/.p10k.zsh* /home/$USERNAME/
-COPY --chown=workshop:root ./dotfiles/.aws/* /home/$USERNAME/.aws/
-COPY --chown=workshop:root ./scripts/* /home/$USERNAME/scripts/
-
-
+COPY --chown=workshop:workshop ./dotfiles /home/$USERNAME/
