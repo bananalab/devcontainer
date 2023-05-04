@@ -1,22 +1,26 @@
 FROM ubuntu:latest
 
-ARG USERNAME=bootcamp
 ARG USER_UID=1000
+ARG USERNAME=bootcamp
 ARG USER_GID=$USER_UID
-ARG TERRAFORM_VERSION=latest
-ARG TFENV_VERSION=latest
-ARG TFLINT_VERSION=latest
-ARG TERRAFORM_DOCS_VERSION=latest
-ARG TERRAGRUNT_VERSION=latest
-ARG NODE_VERSION=18
+
+ARG AWSCOPILOT_VERSION=latest
 ARG CDK_VERSION=latest
 ARG CHECKOV_VERSION=latest
-ARG PRECOMMIT_VERSION=latest
 ARG DIRENV_VERSION=latest
-ARG KUBECTL_VERSION=latest
-ARG AWSCOPILOT_VERSION=latest
 ARG EKSCTL_VERSION=latest
+ARG INFRACOST_VERSION=latest
+ARG K9S_VERSION=latest
+ARG KUBECTL_VERSION=latest
+ARG NODE_VERSION=18
+ARG PRECOMMIT_VERSION=latest
 ARG SOPS_VERSION=latest
+ARG TERRAFORM_DOCS_VERSION=latest
+ARG TERRAFORM_VERSION=latest
+ARG TERRAGRUNT_VERSION=latest
+ARG TFENV_VERSION=latest
+ARG TFLINT_VERSION=latest
+ARG TFSEC_VERSION=latest
 
 ENV TIMEZONE=US/Pacific
 
@@ -27,28 +31,28 @@ RUN set -x && \
     # install packages
     apt update && \
     apt install --no-install-recommends --no-install-suggests -y \
-        zsh \
         build-essential \
+        curl \
+        docker \
+        docker-compose \
+        docker.io \
         gcc \
+        git \
+        gpg-agent \
         htop \
         jq \
-        tree \
         less \
         llvm \
         locales \
         man-db \
+        python3-pip \
         software-properties-common \
         sudo \
+        tree \
+        unzip \
         vim \
         wget \
-        curl \
-        gpg-agent \
-        git \
-        unzip \
-        docker \
-        docker.io \
-        docker-compose \
-        python3-pip && \
+        zsh && \
         rm -rf /var/lib/apt/lists/*
 
 RUN set -x &&\   
