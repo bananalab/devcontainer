@@ -45,6 +45,7 @@ RUN set -x && \
         llvm \
         locales \
         man-db \
+        openssh-client \
         python3-pip \
         software-properties-common \
         sudo \
