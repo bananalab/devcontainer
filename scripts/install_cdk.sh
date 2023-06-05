@@ -9,3 +9,4 @@ bash install_node
 apt update -y
 apt install --no-install-recommends --no-install-suggests -y nodejs yarn 
 npm install -g aws-cdk@${CDK_VERSION}
+npm install -g projen@${PROJEN_VERSION}
