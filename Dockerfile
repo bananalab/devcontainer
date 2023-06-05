@@ -46,6 +46,7 @@ RUN set -x && \
         locales \
         man-db \
         openssh-client \
+        python-is-python3 \
         python3-pip \
         software-properties-common \
         sudo \
