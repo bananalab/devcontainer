@@ -5,7 +5,9 @@ else
     curl -sfL "https://direnv.net/install.sh" | version=${DIRENV_VERSION} bash
 fi
 
-cat << EOF > /tmp/yourfilehere
+mkdir -p /etc/skel/.config/direnv
+
+cat << EOF > /etc/skel/.config/direnv/direnv.toml
 [whitelist]
 prefix = [ "/workspaces/" ]
 EOF
