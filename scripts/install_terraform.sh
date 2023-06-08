@@ -17,6 +17,7 @@ download_and_install_tfenv() {
   rm -rf ${_tmpdir}
   mkdir -p /opt/tfenv/versions
   chmod 777 /opt/tfenv/versions
+  echo 'trust-tfenv: yes' > /opt/tfenv/use-gpgv
   tfenv install ${TERRAFORM_VERSION}
   tfenv use ${TERRAFORM_VERSION}
   chmod 777 /opt/tfenv/version  

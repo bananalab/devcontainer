@@ -23,6 +23,7 @@ ARG TFENV_VERSION=latest
 ARG TFLINT_VERSION=latest
 ARG TFSEC_VERSION=latest
 
+ENV LC_ALL=C
 ENV TIMEZONE=US/Pacific
 
 RUN set -x && \
