@@ -8,7 +8,7 @@ download_and_install_awscopilot() {
   if [ "${_version}" == "latest" ]; then
     _version="$(get_latest ${_repo})"
   fi
-  local _archive_url=$(get_release_archive_url ${_repo} ${_version} "copilot-$(get_kernel)-$(get_machine)-${_version}")
+  local _archive_url=$(get_release_archive_url ${_repo} ${_version} "copilot-$(get_kernel)-$(get_machine)-${_version}\$")
   curl -o "/usr/local/bin/copilot" -fL "${_archive_url}"
   chmod +x /usr/local/bin/copilot
 }

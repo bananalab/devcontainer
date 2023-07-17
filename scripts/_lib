@@ -2,6 +2,10 @@
 #
 set -euo pipefail
 
+if [ ! -z ${GITHUB_CREDENTIAL} ]; then
+  echo "user = \"${GITHUB_CREDENTIAL}\"" > $HOME/.curlrc
+fi
+
 log() {
   echo "[installer] $*" >&2
 }
