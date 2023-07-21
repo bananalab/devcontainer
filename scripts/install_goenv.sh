@@ -30,4 +30,4 @@ cat <<- EOF > /etc/skel/.zshenv
     eval "\$(goenv init -)"
 EOF
 
-download_and_install_goenv ${TFENV_VERSION}
+download_and_install_goenv ${GOENV_VERSION}
