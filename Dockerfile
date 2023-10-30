@@ -29,6 +29,7 @@ ARG TERRAGRUNT_VERSION=latest
 ARG TFENV_VERSION=latest
 ARG TFLINT_VERSION=latest
 ARG TFSEC_VERSION=latest
+ARG TOFU_VERSION=latest
 
 ENV LC_ALL=C
 ENV TIMEZONE=US/Pacific
@@ -66,7 +67,7 @@ RUN set -x && \
         zsh && \
         rm -rf /var/lib/apt/lists/*
 
-COPY --chown=workshop:root --chmod=777 ./scripts/* /tmp/scripts/
+COPY --chown=devcontainer:root --chmod=777 ./scripts/* /tmp/scripts/
 RUN for f in /tmp/scripts/*.sh; do bash -uex "$f" || false; done
 
 RUN set -x &&\
