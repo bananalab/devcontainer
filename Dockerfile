@@ -68,8 +68,7 @@ RUN set -x && \
         rm -rf /var/lib/apt/lists/*
 
 COPY --chown=devcontainer:root --chmod=777 ./scripts/* /tmp/scripts/
-#RUN for f in /tmp/scripts/*.sh; do bash -uex "$f" || false; done
-RUN bash -uex /tmp/scripts/install_tofu.sh
+RUN for f in /tmp/scripts/*.sh; do bash -uex "$f" || false; done
 
 RUN set -x &&\
     # add sudoer
