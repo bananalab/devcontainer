@@ -53,7 +53,7 @@ else
 
 	time docker buildx build \
 	--push \
-	--platform=linux/amd64,linux/arm64 \
+	--platform=linux/arm64,linux/amd64 \
 	-f Dockerfile \
 	-t $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH) .
 endif
