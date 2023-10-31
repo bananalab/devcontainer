@@ -29,7 +29,7 @@ version:
 build: version
 	@ echo '[] Building base image...'
 
-	time docker build \
+	docker build \
 	-f Dockerfile \
 	-t $(NAME_IMAGE_REPO):latest .
 
@@ -42,7 +42,7 @@ buildongithubactions: version
 ifeq ($(IS_LATEST),true)
 	echo 'IS_LATEST=true'
 
-	time docker buildx build \
+	docker buildx build \
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
@@ -51,7 +51,7 @@ ifeq ($(IS_LATEST),true)
 else
 	echo 'IS_LATEST=false or unknown'
 
-	time docker buildx build \
+	docker buildx build \
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
@@ -64,7 +64,7 @@ pushtodockerhub: version
 
 	docker version
 	docker buildx ls
-	docker buildx rm buildnginxworkshop
+	docker buildx rm buildnginxworkshop || true
 	docker buildx ls
 	docker buildx create --append --name buildnginxworkshop
 	docker buildx use buildnginxworkshop
@@ -72,7 +72,7 @@ pushtodockerhub: version
 ifeq ($(IS_LATEST),true)
 	echo 'IS_LATEST=true'
 
-	time docker buildx build \
+	docker buildx build \
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
@@ -81,7 +81,7 @@ ifeq ($(IS_LATEST),true)
 else
 	echo 'IS_LATEST=false or unknown'
 
-	time docker buildx build \
+	docker buildx build \
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \

@@ -1,4 +1,8 @@
+# syntax=docker/dockerfile:1
+FROM docker as docker
+
 FROM ubuntu:latest
+COPY --from=docker /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/libexec/docker/cli-plugins/docker-buildx
 
 ARG USER_UID=1000
 ARG USERNAME=devcontainer
