@@ -1,3 +1,4 @@
+#!/bin/bash -uex
 _scriptdir="$(dirname "$(realpath "$0")")"
 source $_scriptdir/_lib
 

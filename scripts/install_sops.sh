@@ -8,7 +8,7 @@ download_and_install_sops() {
   if [ "${_version}" == "latest" ]; then
     _version="$(get_latest ${_repo})"
   fi
-  local _archive_url=$(get_release_archive_url ${_repo} ${_version} "sops-${_version}.$(get_kernel).$(get_machine)")
+  local _archive_url=$(get_release_archive_url ${_repo} ${_version} "sops-${_version}.$(get_kernel).$(get_machine)\$")
   curl -o "/usr/local/bin/sops" -fL "${_archive_url}"
   chmod +x /usr/local/bin/sops
 }

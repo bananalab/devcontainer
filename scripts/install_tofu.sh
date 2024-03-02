@@ -8,7 +8,7 @@ download_and_install_tofu() {
   if [ "${_version}" == "latest" ]; then
     _version="$(get_latest ${_repo})"
   fi
-  local _archive_url=$(get_release_archive_url ${_repo} ${_version} "tofu_${_version:1}_$(get_kernel)_$(get_machine)" )
+  local _archive_url=$(get_release_archive_url ${_repo} ${_version} "tofu_${_version:1}_$(get_kernel)_$(get_machine).zip\$" )
   _tmpdir=$(mktemp -d)
   pushd ${_tmpdir}
   curl -o "tofu.zip" -fL "${_archive_url}"

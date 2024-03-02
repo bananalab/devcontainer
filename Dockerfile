@@ -72,7 +72,29 @@ RUN set -x && \
         rm -rf /var/lib/apt/lists/*
 
 COPY --chown=devcontainer:root --chmod=777 ./scripts/* /tmp/scripts/
-RUN for f in /tmp/scripts/*.sh; do bash -uex "$f" || false; done
+WORKDIR /tmp/scripts
+RUN ./install_awscli.sh
+RUN ./install_awscopilot.sh
+RUN ./install_cdk.sh
+RUN ./install_checkov.sh
+RUN ./install_direnv.sh
+RUN ./install_eksctl.sh
+RUN ./install_gh.sh
+RUN ./install_goenv.sh
+RUN ./install_gomplate.sh
+RUN ./install_infracost.sh
+RUN ./install_k9s.sh
+RUN ./install_kubectl.sh
+RUN ./install_ohmyzsh.sh
+RUN ./install_precommit.sh
+RUN ./install_sops.sh
+RUN ./install_terraform.sh
+RUN ./install_terraformdocs.sh
+RUN ./install_terragrunt.sh
+RUN ./install_tflint.sh
+RUN ./install_tfsec.sh
+RUN ./install_tofu.sh
+RUN rm -rf /tmp/scripts
 
 RUN set -x &&\
     # add sudoer
