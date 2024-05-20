@@ -1,10 +1,8 @@
 # syntax=docker/dockerfile:1
-FROM docker as docker
 
 FROM ubuntu:latest
-COPY --from=docker /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/libexec/docker/cli-plugins/docker-buildx
 
-ARG USER_UID=1000
+ARG USER_UID=1001
 ARG USERNAME=devcontainer
 ARG USER_GID=$USER_UID
 
@@ -35,8 +33,8 @@ ARG TFLINT_VERSION=latest
 ARG TFSEC_VERSION=latest
 ARG TOFU_VERSION=latest
 
-ENV LC_ALL=C
 ENV TIMEZONE=US/Pacific
+ENV LC_ALL=C
 
 RUN set -x && \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -47,9 +45,6 @@ RUN set -x && \
     apt install --no-install-recommends --no-install-suggests -y \
         build-essential \
         curl \
-        docker \
-        docker-compose \
-        docker.io \
         gcc \
         git \
         gpg-agent \
@@ -60,6 +55,7 @@ RUN set -x && \
         locales \
         man-db \
         openssh-client \
+        pipx \
         python-is-python3 \
         python3-pip \
         software-properties-common \
@@ -71,13 +67,20 @@ RUN set -x && \
         zsh && \
         rm -rf /var/lib/apt/lists/*
 
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 COPY --chown=devcontainer:root --chmod=777 ./scripts/* /tmp/scripts/
 WORKDIR /tmp/scripts
+RUN ./install_ansible.sh
 RUN ./install_awscli.sh
 RUN ./install_awscopilot.sh
 RUN ./install_cdk.sh
 RUN ./install_checkov.sh
 RUN ./install_direnv.sh
+RUN ./install_docker.sh
 RUN ./install_eksctl.sh
 RUN ./install_gh.sh
 RUN ./install_goenv.sh
@@ -86,6 +89,7 @@ RUN ./install_infracost.sh
 RUN ./install_k9s.sh
 RUN ./install_kubectl.sh
 RUN ./install_ohmyzsh.sh
+RUN ./install_packer.sh
 RUN ./install_precommit.sh
 RUN ./install_sops.sh
 RUN ./install_terraform.sh

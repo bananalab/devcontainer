@@ -1,6 +1,6 @@
 #!/bin/bash -uex
 if [ ${CHECKOV_VERSION} == "latest" ]; then
-    pip install checkov
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install checkov
 else
-    pip install checkov~=${CHECKOV_VERSION}
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install checkov~=${CHECKOV_VERSION}
 fi

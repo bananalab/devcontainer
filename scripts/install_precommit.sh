@@ -1,6 +1,6 @@
 #!/bin/bash -uex
 if [ ${PRECOMMIT_VERSION} == "latest" ]; then
-    pip install pre-commit
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install pre-commit
 else
-    pip install pre-commit~=${PRECOMMIT_VERSION}
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install pre-commit~=${PRECOMMIT_VERSION}
 fi

@@ -6,6 +6,7 @@ GIT_COMMIT_HASH  := $(shell git rev-parse --short HEAD)
 NAME_VENDOR      := bananalab
 NAME_PROJECT     := devcontainer
 NAME_IMAGE_REPO  := $(NAME_VENDOR)/$(NAME_PROJECT)
+GITHUB_API_CREDENTIAL = ${GH_CREDENTIAL}
 
 help:
 	@ echo 'Welcome to Makefile of dwchiang/workshop'
@@ -28,14 +29,13 @@ version:
 
 build: version
 	@ echo '[] Building base image...'
-
-	docker build \
-	-f Dockerfile \
-	-t $(NAME_IMAGE_REPO):latest .
-
-	docker tag $(NAME_IMAGE_REPO):latest $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH)
-
-	docker images
+	docker buildx build \
+		--load \
+		-f Dockerfile \
+		-t devcontainer \
+		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		--build-arg GITHUB_CREDENTIAL=$(GITHUB_API_CREDENTIAL) \
+		.
 
 buildongithubactions: version
 	@ echo '[] Building image on GitHub Actions...'
@@ -46,6 +46,7 @@ ifeq ($(IS_LATEST),true)
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
+	--build-arg GITHUB_CREDENTIAL=$(GITHUB_API_CREDENTIAL) \
 	-t $(NAME_IMAGE_REPO):latest \
 	-t $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH) .
 else
@@ -55,6 +56,7 @@ else
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
+	--build-arg GITHUB_CREDENTIAL=$(GITHUB_API_CREDENTIAL) \
 	-t $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH) .
 endif
 	@ echo '[] Finished build image on GitHub Actions...'
@@ -76,6 +78,7 @@ ifeq ($(IS_LATEST),true)
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
+	--build-arg GITHUB_CREDENTIAL=$(GITHUB_API_CREDENTIAL) \
 	-t $(NAME_IMAGE_REPO):latest \
 	-t $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH) .
 else
@@ -85,6 +88,7 @@ else
 	--push \
 	--platform=linux/amd64,linux/arm64 \
 	-f Dockerfile \
+	--build-arg GITHUB_CREDENTIAL=$(GITHUB_API_CREDENTIAL) \
 	-t $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH) .
 endif
 
