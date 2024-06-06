@@ -14,6 +14,7 @@ ARG AWSCOPILOT_VERSION=latest
 ARG CDK_VERSION=latest
 ARG CHECKOV_VERSION=latest
 ARG DIRENV_VERSION=latest
+ARG E1S_VERSION=latest
 ARG EKSCTL_VERSION=latest
 ARG INFRACOST_VERSION=latest
 ARG GO_VERSION=latest
@@ -81,6 +82,7 @@ RUN ./install_cdk.sh
 RUN ./install_checkov.sh
 RUN ./install_direnv.sh
 RUN ./install_docker.sh
+RUN ./install_e1s.sh
 RUN ./install_eksctl.sh
 RUN ./install_gh.sh
 RUN ./install_goenv.sh
