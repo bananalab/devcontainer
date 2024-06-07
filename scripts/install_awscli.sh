@@ -1,16 +1,26 @@
 #!/bin/bash -uex
-export ARCH=$(uname -i)
-case ${ARCH} in
+_arch="$(uname -m)"
+case ${_arch} in
+    x86_64)
+        export _platform="ubuntu_64bit"
+        ;;
     aarch64)
-        curl -sf "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" ;
-        unzip awscliv2.zip ;
-        ./aws/install ;
+        export _platform="ubuntu_arm64"
         ;;
     *)
-        curl -sf "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ;
-        unzip awscliv2.zip ;
-        ./aws/install ;
+        echo "Machine ${_arch} not supported by the installer.\n"
+        exit 1
         ;;
 esac
-rm awscliv2.zip
-rm -rf aws
+
+_tmpdir=$(mktemp -d)
+
+curl -sf "https://awscli.amazonaws.com/awscli-exe-linux-${_arch}.zip" -o "${_tmpdir}/awscliv2.zip"
+curl -sf "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/${_platform}/session-manager-plugin.deb" -o "${_tmpdir}/session-manager-plugin.deb"
+
+pushd "${_tmpdir}"
+    unzip awscliv2.zip
+    ./aws/install
+    dpkg -i session-manager-plugin.deb
+popd
+rm -rf "${_tmpdir}"
