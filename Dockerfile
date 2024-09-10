@@ -78,6 +78,7 @@ WORKDIR /tmp/scripts
 RUN ./install_ansible.sh
 RUN ./install_awscli.sh
 RUN ./install_awscopilot.sh
+RUN ./install_azcli.sh
 RUN ./install_cdk.sh
 RUN ./install_checkov.sh
 RUN ./install_direnv.sh
