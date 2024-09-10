@@ -85,6 +85,7 @@ RUN ./install_direnv.sh
 RUN ./install_docker.sh
 RUN ./install_e1s.sh
 RUN ./install_eksctl.sh
+RUN ./install_gcloud.sh
 RUN ./install_gh.sh
 RUN ./install_goenv.sh
 RUN ./install_gomplate.sh

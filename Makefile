@@ -33,6 +33,8 @@ build: version
 		--load \
 		-f Dockerfile \
 		-t devcontainer \
+		-t $(NAME_IMAGE_REPO):latest \
+		-t $(NAME_IMAGE_REPO):$(GIT_COMMIT_HASH) \
 		--build-arg BUILDKIT_INLINE_CACHE=1 \
 		--build-arg GITHUB_CREDENTIAL=$(GITHUB_API_CREDENTIAL) \
 		.
