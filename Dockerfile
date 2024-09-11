@@ -20,6 +20,7 @@ ARG INFRACOST_VERSION=latest
 ARG GO_VERSION=latest
 ARG GOENV_VERSION=latest
 ARG GOMPLATE_VERSION=latest
+ARG HELM_VERSION=latest
 ARG K9S_VERSION=latest
 ARG KUBECTL_VERSION=latest
 ARG NODE_VERSION=18
@@ -89,6 +90,7 @@ RUN ./install_gcloud.sh
 RUN ./install_gh.sh
 RUN ./install_goenv.sh
 RUN ./install_gomplate.sh
+RUN ./install_helm.sh
 RUN ./install_infracost.sh
 RUN ./install_k9s.sh
 RUN ./install_kubectl.sh
