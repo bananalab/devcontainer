@@ -19,4 +19,4 @@ download_and_install_e1s() {
   rm -rf "${_tmpdir}"
 }
 
-download_and_install_e1s ${AWSCOPILOT_VERSION}
+download_and_install_e1s ${E1S_VERSION}

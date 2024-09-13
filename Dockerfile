@@ -10,6 +10,7 @@ ARG USER_GID=$USER_UID
 # username:password
 ARG GITHUB_CREDENTIAL=
 
+ARG ATLANTIS_VERSION=latest
 ARG AWSCOPILOT_VERSION=latest
 ARG CDK_VERSION=latest
 ARG CHECKOV_VERSION=latest
@@ -77,6 +78,7 @@ ENV LC_ALL en_US.UTF-8
 COPY --chown=devcontainer:root --chmod=777 ./scripts/* /tmp/scripts/
 WORKDIR /tmp/scripts
 RUN ./install_ansible.sh
+RUN ./install_atlantis.sh
 RUN ./install_awscli.sh
 RUN ./install_awscopilot.sh
 RUN ./install_azcli.sh
@@ -94,6 +96,7 @@ RUN ./install_helm.sh
 RUN ./install_infracost.sh
 RUN ./install_k9s.sh
 RUN ./install_kubectl.sh
+RUN ./install_ngrok.sh
 RUN ./install_ohmyzsh.sh
 RUN ./install_packer.sh
 RUN ./install_precommit.sh

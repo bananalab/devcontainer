@@ -1,4 +1,5 @@
 #!/bin/bash -uex
+rm ~/.curlrc
 _arch="$(uname -m)"
 case ${_arch} in
     x86_64)
